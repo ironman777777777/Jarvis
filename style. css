@@ -1,1 +1,106 @@
 
+/* JARVIS HUD — Mark I */
+/* Visual foundation */
+
+:root {
+  --bg: #050b14;
+  --panel: rgba(10, 24, 40, 0.88);
+  --cyan: #51eaff;
+  --blue: #168dff;
+  --muted: #7599b3;
+  --line: rgba(81, 234, 255, 0.25);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  background: var(--bg);
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px;
+  color: #d9f8ff;
+  background:
+    radial-gradient(
+      ellipse at top,
+      #102b42 0%,
+      var(--bg) 65%
+    );
+  font-family: "Rajdhani", "Arial", sans-serif;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--cyan);
+  font-family: "Orbitron", "Arial", sans-serif;
+  letter-spacing: 0.08em;
+  text-shadow: 0 0 12px rgba(81, 234, 255, 0.3);
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  color: var(--cyan);
+  background: rgba(22, 141, 255, 0.12);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 10px 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: rgba(81, 234, 255, 0.15);
+  border-color: var(--cyan);
+}
+
+input,
+textarea {
+  max-width: 100%;
+  color: #d9f8ff;
+  background: #081522;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 10px;
+}
+
+.panel,
+.card,
+section {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+  box-shadow: 0 0 18px rgba(22, 141, 255, 0.07);
+  padding: 16px;
+}
+
+a {
+  color: var(--cyan);
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 12px;
+  }
+
+  .panel,
+  .card,
+  section {
+    padding: 12px;
+  }
+}
+
