@@ -261,6 +261,7 @@ document.getElementById('scan').addEventListener('click', function() {
   
 <script>
 (() => {
+  document.body.dataset.jarvisTest = "running";
   const input = document.getElementById("jarvis-input");
   const send = document.getElementById("jarvis-send");
   const chat = document.getElementById("jarvis-chat-button");
@@ -389,5 +390,4 @@ document.getElementById('scan').addEventListener('click', function() {
   </div>
 </section>
 <!-- END JARVIS ASSISTANT PANEL -->
-<button type="button" id="jarvis-send">SEND</button>
 </html>
