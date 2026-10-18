@@ -661,6 +661,44 @@ button:active {
   }
 }
 
+/* ===== HOLOGRAPHIC ENERGY SWEEP ===== */
+
+.arc-reactor-widget {
+  position: relative;
+  isolation: isolate;
+}
+
+.arc-reactor-widget::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(90vw, 340px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px solid rgba(80, 234, 255, 0.12);
+  box-shadow:
+    0 0 35px rgba(80, 234, 255, 0.06),
+    inset 0 0 35px rgba(80, 234, 255, 0.04);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.arc-reactor-widget .reactor-label {
+  text-transform: uppercase;
+}
+
+.arc-reactor-widget .reactor-status {
+  text-shadow: 0 0 8px rgba(98, 255, 193, 0.3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arc-reactor-widget::before {
+    animation: none;
+  }
+}
+
   </style>
 </head>
 
