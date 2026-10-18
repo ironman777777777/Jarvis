@@ -2,393 +2,590 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#050b14">
-<title>J.A.R.V.I.S. — Mark I</title>
-<style>
-:root {
-  --bg: #050b14;
-  --panel: rgba(9, 25, 42, .92);
-  --cyan: #51eaff;
-  --blue: #168dff;
-  --red: #ff465c;
-  --muted: #7599b3;
-  --line: rgba(81, 234, 255, .27);
-}
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  min-height: 100vh;
-  color: #e6f8ff;
-  background:
-    radial-gradient(ellipse at 50% 0%, #103653 0%, transparent 48%),
-    linear-gradient(rgba(81,234,255,.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(81,234,255,.035) 1px, transparent 1px),
-    var(--bg);
-  background-size: auto, 28px 28px, 28px 28px, auto;
-  font-family: Arial, sans-serif;
-}
-.hud { width: min(1120px, 100%); margin: auto; padding: 20px; }
-header {
-  display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: 15px;
-  padding: 8px 0 20px; border-bottom: 1px solid var(--line);
-}
-.eyebrow {
-  color: var(--muted); font-size: 10px;
-  letter-spacing: 2px; text-transform: uppercase;
-}
-h1 {
-  font-size: clamp(22px, 4vw, 32px);
-  letter-spacing: 2px; margin: 8px 0;
-}
-h1 span, .cyan { color: var(--cyan); }
-.status { color: #77ffc0; font-size: 11px; }
-#clock { color: var(--cyan); margin-top: 8px; font-size: 20px; }
-.panel {
-  min-width: 0; position: relative; overflow: hidden;
-  background: linear-gradient(135deg, rgba(17,48,70,.88), var(--panel));
-  border: 1px solid var(--line); padding: 20px;
-  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px,
-    100% 100%, 14px 100%, 0 calc(100% - 14px));
-}
-.panel:before {
-  content: ""; position: absolute; top: 0; left: 0;
-  width: 3px; height: 35px; background: var(--cyan);
-  box-shadow: 0 0 12px var(--cyan);
-}
-.hero {
-  display: grid; grid-template-columns: 1fr 190px;
-  align-items: center; gap: 20px; margin-top: 20px;
-}
-h2 { font-size: clamp(27px, 5vw, 45px); margin: 12px 0; }
-.muted { color: var(--muted); line-height: 1.6; }
-button {
-  border: 1px solid var(--cyan); background: #082638;
-  color: var(--cyan); padding: 12px 15px; margin-top: 10px;
-  font-weight: bold; letter-spacing: 1px; cursor: pointer;
-}
-button:active { background: #12455b; }
-.reactor {
-  width: 170px; height: 170px; position: relative;
-  display: grid; place-items: center;
-  justify-self: center; border-radius: 50%;
-  background: radial-gradient(circle, #51eaff12, transparent 67%);
-}
-.ring {
-  position: absolute; border: 1px solid var(--cyan);
-  border-radius: 50%; inset: 5px;
-  box-shadow: 0 0 12px #51eaff22;
-}
-.ring.one { border-style: dashed; animation: spin 24s linear infinite; }
-.ring.two {
-  inset: 20px; border: 4px solid var(--blue);
-  border-left-color: transparent; border-right-color: transparent;
-  animation: spin 8s linear infinite reverse;
-}
-.ring.three { inset: 38px; border-color: #8df7ff; }
-.core {
-  width: 43px; height: 43px; z-index: 1;
-  background: radial-gradient(circle, white 0%, var(--cyan) 30%, var(--blue) 75%);
-  clip-path: polygon(50% 0, 90% 22%, 100% 60%, 72% 100%,
-  28% 100%, 0 60%, 10% 22%);
-  box-shadow: 0 0 30px var(--cyan);
-  filter: drop-shadow(0 0 12px var(--cyan));
-}
-.stats {
-  display: grid; grid-template-columns: repeat(3, minmax(0,1fr));
-  gap: 14px; margin-top: 14px;
-}
-.stats .panel { padding: 17px; }
-.value { font-size: 27px; font-weight: bold; margin: 12px 0; }
-.meter { height: 4px; background: #ffffff18; margin: 12px 0; }
-.meter span {
-  display: block; height: 100%; background: var(--cyan);
-  box-shadow: 0 0 10px var(--cyan);
-}
-.meter.blue span { background: var(--blue); box-shadow: 0 0 10px var(--blue); }
-.red { color: var(--red); }
-.lower {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 14px; margin-top: 14px;
-}
-.module {
-  padding: 14px 0; border-bottom: 1px solid #51eaff20;
-  display: flex; gap: 10px; align-items: center;
-}
-.module .symbol { color: var(--cyan); font-size: 19px; }
-.module b { color: #77ffc0; font-size: 10px; margin-left: auto; }
-#log p { font-size: 12px; color: #b3ccdc; line-height: 1.5; }
-.scanline {
-  height: 1px; width: 100%; position: absolute;
-  top: 0; left: 0; background: #51eaff55;
-  animation: scan 6s linear infinite; pointer-events: none;
-}
-footer {
-  display: flex; justify-content: space-between; gap: 10px;
-  color: #58778c; font-size: 10px; letter-spacing: 1px;
-  padding: 24px 0;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-@keyframes scan { from { top: 0; } to { top: 100%; } }
-@media(max-width:600px) {
-  .hud { padding: 13px; }
-  .hero { grid-template-columns: 1fr; }
-  .reactor { width: 145px; height: 145px; grid-row: 1; }
-  .stats { grid-template-columns: 1fr; }
-  .lower { grid-template-columns: 1fr; }
-  header { align-items: flex-start; }
-  footer { flex-direction: column; }
-}
-@media(prefers-reduced-motion:reduce) {
-  *, *:before, *:after { animation: none !important; }
-}
-</style>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-<div class="hud">
-<header>
-  <div>
-    <div class="eyebrow">Stark Industries / Interface 01</div>
-    <h1>J.A.R.V.I.S. <span>HUD</span></h1>
-  </div>
-  <div>
-    <div class="status">● SYSTEMS NOMINAL</div>
-    <div id="clock">INITIALIZING</div>
-  </div>
-</header>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#050b14">
+  <title>JARVIS HUD — Mark I</title>
 
-<main>
-  <section class="panel hero">
-    <div>
-      <div class="eyebrow">01 / System overview</div>
-      <h2>Welcome back<span class="cyan">, Stark.</span></h2>
-      <p class="muted">All primary interfaces are standing by.<br>
-      Awaiting operator command.</p>
-      <button id="scan">⌁ RUN SYSTEM SCAN</button>
-    </div>
-    <div class="reactor" aria-label="Animated arc reactor graphic">
-      <div class="ring one"></div>
-      <div class="ring two"></div>
-      <div class="ring three"></div>
-      <div class="core"></div>
-    </div>
-    <div class="scanline"></div>
-  </section>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Rajdhani:wght@400;500;600;700&display=swap');
 
-  <section class="stats">
-    <article class="panel">
-      <div class="eyebrow">Core integrity</div>
-      <div class="value cyan">98.7%</div>
-      <div class="meter"><span style="width:98.7%"></span></div>
-      <div class="muted">Simulated status</div>
-    </article>
-    <article class="panel">
-      <div class="eyebrow">Reactor output</div>
-      <div class="value">84.0%</div>
-      <div class="meter blue"><span style="width:84%"></span></div>
-      <div class="muted">Visual diagnostic</div>
-    </article>
-    <article class="panel">
-      <div class="eyebrow">Armor diagnostics</div>
-      <div class="value red">MARK I</div>
-      <div class="meter"><span style="width:72%;background:var(--red)"></span></div>
-      <div class="muted">Demo readout — not real hardware</div>
-    </article>
-  </section>
+    :root {
+      --bg: #050b14;
+      --panel: rgba(10, 24, 40, .92);
+      --cyan: #51eaff;
+      --blue: #168dff;
+      --muted: #7599b3;
+      --line: rgba(81, 234, 255, .25);
+      --orange: #ff9b42;
+      --orange-line: rgba(255, 155, 66, .35);
+      --text: #d9faff;
+    }
 
-  <section class="lower">
-    <article class="panel">
-      <div class="eyebrow">02 / System modules</div>
-      <div class="module"><span class="symbol">◈</span> HUD interface <b>ACTIVE</b></div>
-      <div class="module"><span class="symbol">ϟ</span> Reactor monitor <b>ACTIVE</b></div>
-      <div class="module"><span class="symbol">⬡</span> Security layer <b>SECURE</b></div>
-      <div class="module"><span class="symbol">⌘</span> Voice assistant <b>PHASE 4</b></div>
-    </article>
-    <article class="panel">
-      <div class="eyebrow">03 / Activity log</div>
-      <div id="log" aria-live="polite">
-        <p>Interface initialized.</p>
-        <p>Visual diagnostics loaded.</p>
-        <p>Awaiting operator command.</p>
-      </div>
-    </article>
-  </section>
-</main>
-<footer>
-  <span>STARK INDUSTRIES</span>
-  <span>J.A.R.V.I.S. / MARK I</span>
-  <span>PHASE 01</span>
-</footer>
-</div>
-<script>
-const clock = document.getElementById('clock');
-const log = document.getElementById('log');
-function updateClock() {
-  clock.textContent = new Date().toLocaleTimeString('en-US', {hour12:false});
-}
-updateClock();
-setInterval(updateClock, 1000);
+    * { box-sizing: border-box; }
 
-document.getElementById('scan').addEventListener('click', function() {
-  this.disabled = true;
-  this.textContent = 'SCANNING...';
-  const messages = [
-    'System scan initiated.',
-    'HUD interface operational.',
-    'Reactor monitor nominal.',
-    'Armor diagnostics simulated.',
-    'Scan complete — all demo modules responsive.'
-  ];
-  messages.forEach((message, index) => {
-    setTimeout(() => {
-      const entry = document.createElement('p');
-      entry.textContent = '[' +
-        new Date().toLocaleTimeString('en-US', {hour12:false}) +
-        '] ' + message;
-      log.prepend(entry);
-      while (log.children.length > 8) log.lastElementChild.remove();
-      if (index === messages.length - 1) {
-        this.disabled = false;
-        this.textContent = '⌁ RUN SYSTEM SCAN';
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(ellipse at 50% 0%, #10263b 0%, transparent 55%),
+        linear-gradient(rgba(81,234,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(81,234,255,.025) 1px, transparent 1px),
+        var(--bg);
+      background-size: auto, 28px 28px, 28px 28px, auto;
+      color: var(--text);
+      font-family: 'Rajdhani', sans-serif;
+    }
+
+    button, input, textarea { font: inherit; }
+
+    button {
+      cursor: pointer;
+      transition: background .2s, box-shadow .2s;
+    }
+
+    button:focus-visible, input:focus-visible, textarea:focus-visible {
+      outline: 2px solid var(--cyan);
+      outline-offset: 3px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 18px 5%;
+      border-bottom: 1px solid var(--line);
+      background: rgba(5, 11, 20, .88);
+    }
+
+    .brand {
+      font: 700 clamp(1rem, 4vw, 1.5rem) 'Orbitron', sans-serif;
+      letter-spacing: 2px;
+      color: var(--cyan);
+    }
+
+    .brand small {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font: 500 .65rem 'Rajdhani', sans-serif;
+      letter-spacing: 3px;
+    }
+
+    .live {
+      color: var(--cyan);
+      font-size: .8rem;
+      letter-spacing: 1px;
+    }
+
+    .live::before {
+      content: "";
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      margin-right: 7px;
+      background: var(--cyan);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--cyan);
+    }
+
+    main {
+      width: min(1100px, 92%);
+      margin: 28px auto 50px;
+    }
+
+    .section-title {
+      margin: 0 0 15px;
+      color: var(--cyan);
+      font: 600 1rem 'Orbitron', sans-serif;
+      letter-spacing: 2px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .panel {
+      min-width: 0;
+      padding: 22px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: 0 0 24px rgba(22, 141, 255, .06);
+    }
+
+    .panel.friday {
+      border-color: var(--orange-line);
+      box-shadow: 0 0 24px rgba(255, 155, 66, .04);
+    }
+
+    .panel-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 13px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .friday .panel-head { border-color: var(--orange-line); }
+
+    .panel-name {
+      color: var(--cyan);
+      font: 600 1rem 'Orbitron', sans-serif;
+      letter-spacing: 2px;
+    }
+
+    .friday .panel-name { color: var(--orange); }
+
+    .tag {
+      color: var(--muted);
+      font-size: .7rem;
+      letter-spacing: 1px;
+    }
+
+    .core-wrap {
+      display: grid;
+      place-items: center;
+      padding: 25px 0 10px;
+    }
+
+    .core {
+      display: grid;
+      place-items: center;
+      width: 142px;
+      height: 142px;
+      border: 2px solid var(--cyan);
+      border-radius: 50%;
+      box-shadow: 0 0 20px rgba(81,234,255,.2),
+        inset 0 0 20px rgba(81,234,255,.12);
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    .core-inner {
+      display: grid;
+      place-items: center;
+      width: 100px;
+      height: 100px;
+      border: 1px solid var(--blue);
+      border-radius: 50%;
+      color: var(--cyan);
+      font: 600 2.6rem 'Orbitron', sans-serif;
+      text-shadow: 0 0 15px var(--cyan);
+    }
+
+    .friday .core {
+      border-color: var(--orange);
+      box-shadow: 0 0 20px rgba(255,155,66,.15),
+        inset 0 0 20px rgba(255,155,66,.1);
+    }
+
+    .friday .core-inner {
+      border-color: var(--orange);
+      color: var(--orange);
+      text-shadow: 0 0 15px var(--orange);
+    }
+
+    @keyframes pulse {
+      50% { transform: scale(1.025); }
+    }
+
+    .status {
+      margin: 14px 0 5px;
+      color: var(--cyan);
+      text-align: center;
+      font-size: .8rem;
+      letter-spacing: 2px;
+    }
+
+    .friday .status { color: var(--orange); }
+
+    .description {
+      min-height: 40px;
+      color: #a9c5d6;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: 16px;
+    }
+
+    .command-row {
+      display: flex;
+      gap: 9px;
+      margin-top: 15px;
+    }
+
+    input, textarea {
+      width: 100%;
+      min-width: 0;
+      padding: 12px;
+      color: var(--text);
+      background: #071321;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+    }
+
+    .friday input { border-color: var(--orange-line); }
+
+    .btn {
+      padding: 11px 15px;
+      color: var(--cyan);
+      background: #071725;
+      border: 1px solid var(--blue);
+      border-radius: 7px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .btn:hover { background: #102c42; }
+
+    .friday .btn {
+      color: var(--orange);
+      border-color: var(--orange);
+    }
+
+    .response {
+      min-height: 48px;
+      margin-top: 15px;
+      padding: 12px;
+      color: #a9c5d6;
+      background: rgba(22,141,255,.06);
+      border-left: 2px solid var(--cyan);
+      overflow-wrap: anywhere;
+    }
+
+    .friday .response {
+      background: rgba(255,155,66,.04);
+      border-color: var(--orange);
+    }
+
+    .wide { margin-top: 20px; }
+
+    .chat-log {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 260px;
+      min-height: 75px;
+      overflow-y: auto;
+      padding: 12px 0;
+    }
+
+    .bubble {
+      max-width: 90%;
+      padding: 10px 13px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      line-height: 1.45;
+      overflow-wrap: anywhere;
+      white-space: pre-wrap;
+    }
+
+    .bubble.user {
+      align-self: flex-end;
+      color: var(--cyan);
+      background: rgba(22,141,255,.1);
+    }
+
+    .bubble.assistant { align-self: flex-start; }
+
+    .chat-note {
+      color: var(--muted);
+      font-size: .85rem;
+      line-height: 1.5;
+    }
+
+    footer {
+      padding: 20px;
+      color: var(--muted);
+      text-align: center;
+      border-top: 1px solid var(--line);
+      font-size: .8rem;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 680px) {
+      .grid { grid-template-columns: 1fr; }
+      .topbar { padding: 16px 4%; }
+      main { width: 94%; margin-top: 20px; }
+      .panel { padding: 17px; }
+      .command-row { flex-wrap: wrap; }
+      .command-row .btn { flex: 0 0 auto; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
       }
-    }, index * 350);
-  });
-});
-</script>
-  
-<script>
-(() => {
-  document.body.dataset.jarvisTest = "running";
-  document.getElementById("jarvis-response").textContent = "JARVIS SCRIPT IS RUNNING";
-  const input = document.getElementById("jarvis-input");
-  const send = document.getElementById("jarvis-send");
-  const chat = document.getElementById("jarvis-chat-button");
-  const voice = document.getElementById("jarvis-voice-button");
-  const output = document.getElementById("jarvis-response");
-
-  if (!input || !send || !output) return;
-
-  function respond(command) {
-    const text = command.toLowerCase().trim();
-    let reply;
-
-    if (!text) {
-      reply = "Please enter a command, boss.";
-    } else if (text.includes("hello") || text.includes("hi jarvis")) {
-      reply = "Hello, boss. All systems are ready.";
-    } else if (text.includes("status")) {
-      reply = "JARVIS interface is online. Command console operational.";
-    } else if (text.includes("time")) {
-      reply = "The current device time is " +
-        new Date().toLocaleTimeString([], {
-          hour: "numeric",
-          minute: "2-digit"
-        }) + ".";
-    } else if (text.includes("date")) {
-      reply = "Today's date is " +
-        new Date().toLocaleDateString() + ".";
-    } else if (text.includes("friday")) {
-      reply = "FRIDAY is the next interface to be installed.";
-    } else if (text.includes("help")) {
-      reply = "Available commands: hello, status, time, date, and Friday.";
-    } else {
-      reply = "Command received: " + command +
-        ". I do not have an AI connection yet.";
     }
+  </style>
+</head>
 
-    output.textContent = reply;
-    return reply;
-  }
+<body>
+  <header class="topbar">
+    <div class="brand">
+      STARK INDUSTRIES
+      <small>PERSONAL ASSISTANT INTERFACE · MARK I</small>
+    </div>
+    <div class="live">HUD ONLINE</div>
+  </header>
 
-  function speakReply() {
-    if (!("speechSynthesis" in window)) {
-      output.textContent =
-        "Speech is not supported in this browser.";
-      return;
-    }
+  <main>
+    <h1 class="section-title">ASSISTANT SYSTEMS</h1>
 
-    window.speechSynthesis.cancel();
+    <div class="grid">
+      <section class="panel" aria-labelledby="jarvis-title">
+        <div class="panel-head">
+          <div class="panel-name" id="jarvis-title">J.A.R.V.I.S.</div>
+          <span class="tag">SYSTEM 01</span>
+        </div>
 
-    const speech = new SpeechSynthesisUtterance(
-      output.textContent
-    );
-    speech.rate = 0.95;
-    speech.pitch = 0.9;
-    window.speechSynthesis.speak(speech);
-  }
+        <div class="core-wrap">
+          <div class="core"><div class="core-inner">J</div></div>
+        </div>
+        <div class="status">● SYSTEM ONLINE</div>
+        <p class="description">Just A Rather Very Intelligent System</p>
 
-  send.addEventListener("click", () => {
-    respond(input.value);
-    input.value = "";
-  });
+        <label for="jarvis-input">COMMAND INPUT</label>
+        <div class="command-row">
+          <input id="jarvis-input" placeholder="Try: help" autocomplete="off">
+          <button class="btn" id="jarvis-send" type="button">SEND</button>
+        </div>
 
-  input.addEventListener("keydown", event => {
-    if (event.key === "Enter") {
-      respond(input.value);
-      input.value = "";
-    }
-  });
+        <div class="controls">
+          <button class="btn" id="jarvis-voice" type="button">SPEAK REPLY</button>
+          <button class="btn" id="jarvis-clear" type="button">CLEAR</button>
+        </div>
 
-  if (chat) {
-    chat.addEventListener("click", () => {
-      input.focus();
-      output.textContent = "Command console ready. Awaiting input.";
-    });
-  }
+        <div class="response" id="jarvis-response" aria-live="polite">
+          Awaiting your command, boss...
+        </div>
+      </section>
 
-  if (voice) {
-    voice.addEventListener("click", speakReply);
-  }
-})();
-</script>
+      <section class="panel friday" aria-labelledby="friday-title">
+        <div class="panel-head">
+          <div class="panel-name" id="friday-title">F.R.I.D.A.Y.</div>
+          <span class="tag">SYSTEM 02</span>
+        </div>
 
+        <div class="core-wrap">
+          <div class="core"><div class="core-inner">F</div></div>
+        </div>
+        <div class="status">● SYSTEM ONLINE</div>
+        <p class="description">Female Replacement Intelligent Digital Assistant Youth</p>
+
+        <label for="friday-input">FRIDAY COMMAND INPUT</label>
+        <div class="command-row">
+          <input id="friday-input" placeholder="Try: help" autocomplete="off">
+          <button class="btn" id="friday-send" type="button">SEND</button>
+        </div>
+
+        <div class="controls">
+          <button class="btn" id="friday-voice" type="button">SPEAK REPLY</button>
+          <button class="btn" id="friday-clear" type="button">CLEAR</button>
+        </div>
+
+        <div class="response" id="friday-response" aria-live="polite">
+          FRIDAY systems ready. Awaiting instructions.
+        </div>
+      </section>
+    </div>
+
+    <section class="panel wide" aria-labelledby="chat-title">
+      <div class="panel-head">
+        <div class="panel-name" id="chat-title">NEURAL CHAT INTERFACE</div>
+        <span class="tag">DEMO MODE</span>
+      </div>
+
+      <p class="chat-note">
+        This is a local demo chat. It can respond to a few built-in prompts,
+        but it is not connected to a real AI model yet.
+      </p>
+
+      <div id="chat-log" class="chat-log" aria-live="polite">
+        <div class="bubble assistant">
+          JARVIS: Chat interface initialized. Try asking for help or the system status.
+        </div>
+      </div>
+
+      <form id="chat-form">
+        <label for="chat-input">MESSAGE JARVIS</label>
+        <div class="command-row">
+          <input id="chat-input" placeholder="Type a message..." autocomplete="off">
+          <button class="btn" type="submit">SEND</button>
+        </div>
+      </form>
+      <div class="controls">
+        <button class="btn" id="chat-voice" type="button">SPEAK LAST REPLY</button>
+        <button class="btn" id="chat-clear" type="button">CLEAR CHAT</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    JARVIS HUD — MARK I · LOCAL PROTOTYPE · EXTERNAL AI NOT CONNECTED
+  </footer>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const $ = id => document.getElementById(id);
+      let lastSpokenReply = "JARVIS is online, boss.";
+
+      function speak(text) {
+        if (!("speechSynthesis" in window)) {
+          return false;
+        }
+
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 0.95;
+        window.speechSynthesis.speak(utterance);
+        return true;
+      }
+
+      function getReply(command, assistant) {
+        const text = command.toLowerCase().trim();
+        const name = assistant === "friday" ? "FRIDAY" : "JARVIS";
+
+        if (!text) return "Please enter a command.";
+
+        if (/\b(hello|hi|hey)\b/.test(text)) {
+          return `Hello, boss. ${name} is online and ready.`;
+        }
+
+        if (text.includes("help")) {
+          return "Available commands: hello, help, status, time, date, who are you, and clear.";
+        }
+
+        if (text.includes("status")) {
+          return `${name} interface is online. Local command system is operational.`;
+        }
+
+        if (text.includes("time")) {
+          return `The device time is ${new Date().toLocaleTimeString([], {
+            hour: "numeric",
+            minute: "2-digit"
+          })}.`;
+        }
+
+        if (text.includes("date")) {
+          return `Today's date is ${new Date().toLocaleDateString()}.`;
+        }
+
+        if (text.includes("who are you") || text.includes("your name")) {
+          return assistant === "friday"
+            ? "I am FRIDAY, your secondary assistant interface."
+            : "I am JARVIS, your personal assistant interface.";
+        }
+
+        if (text.includes("friday")) {
+          return "FRIDAY's orange-accented interface is online.";
+        }
+
+        if (text.includes("jarvis")) {
+          return "Yes, boss. I am listening. Try help to see available demo commands.";
+        }
+
+        return `I received "${command}", boss, but this prototype has no connected AI service yet. Try help for supported commands.`;
+      }
+
+      function runAssistant(assistant) {
+        const prefix = assistant === "friday" ? "friday" : "jarvis";
+        const input = $(`${prefix}-input`);
+        const output = $(`${prefix}-response`);
+        const command = input.value.trim();
+
+        if (!command) {
+          output.textContent = "Please enter a command first.";
+          return;
+        }
+
+        const reply = getReply(command, assistant);
+        output.textContent = reply;
+        lastSpokenReply = reply;
+        input.value = "";
+      }
+
+      function setupAssistant(assistant) {
+        const prefix = assistant === "friday" ? "friday" : "jarvis";
+
+        $(`${prefix}-send`).addEventListener("click", () => {
+          runAssistant(assistant);
+        });
+
+        $(`${prefix}-input`).addEventListener("keydown", event => {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            runAssistant(assistant);
+          }
+        });
+
+        $(`${prefix}-voice`).addEventListener("click", () => {
+          const reply = $(`${prefix}-response`).textContent.trim();
+          if (!speak(reply)) {
+            $(`${prefix}-response`).textContent =
+              "Speech synthesis is not supported by this browser.";
+          }
+        });
+
+        $(`${prefix}-clear`).addEventListener("click", () => {
+          $(`${prefix}-input`).value = "";
+          $(`${prefix}-response`).textContent =
+            assistant === "friday"
+              ? "FRIDAY systems ready. Awaiting instructions."
+              : "Awaiting your command, boss...";
+        });
+      }
+
+      function addBubble(message, role) {
+        const bubble = document.createElement("div");
+        bubble.className = `bubble ${role}`;
+        bubble.textContent = message;
+        $("chat-log").appendChild(bubble);
+        $("chat-log").scrollTop = $("chat-log").scrollHeight;
+      }
+
+      $("chat-form").addEventListener("submit", event => {
+        event.preventDefault();
+
+        const input = $("chat-input");
+        const message = input.value.trim();
+        if (!message) return;
+
+        addBubble(`YOU: ${message}`, "user");
+
+        const reply = getReply(message, "jarvis");
+        addBubble(`JARVIS: ${reply}`, "assistant");
+        lastSpokenReply = reply;
+        input.value = "";
+      });
+
+      $("chat-voice").addEventListener("click", () => {
+        speak(lastSpokenReply);
+      });
+
+      $("chat-clear").addEventListener("click", () => {
+        $("chat-log").replaceChildren();
+        addBubble("JARVIS: Chat cleared. Ready for your next message.", "assistant");
+      });
+
+      setupAssistant("jarvis");
+      setupAssistant("friday");
+
+      $("jarvis-input").focus();
+    })();
+  </script>
 </body>
-  
-<!-- JARVIS ASSISTANT PANEL -->
-<section id="jarvis-panel" class="assistant-panel">
-  <div class="assistant-header">
-    <div class="jarvis-status">
-      <span class="status-light"></span>
-      J.A.R.V.I.S.
-    </div>
-    <span class="assistant-label">PERSONAL AI</span>
-  </div>
-
-  <div class="jarvis-core">
-    <div class="core-ring">
-      <div class="core-inner">J</div>
-    </div>
-    <p class="system-status">SYSTEM ONLINE</p>
-    <p class="system-message">
-      Good day. JARVIS interface initialized.
-    </p>
-  </div>
-
-  <div class="jarvis-controls">
-    <button type="button" id="jarvis-chat-button">
-      OPEN CHAT
-    </button>
-    <button type="button" id="jarvis-voice-button">
-      VOICE
-    </button>
-  </div>
-
-<div class="jarvis-command">
-  <input
-    id="jarvis-input"
-    type="text"
-    placeholder="Enter a command..."
-    aria-label="Enter a command"
-  />
-  <button type="button" id="jarvis-send">SEND</button>
-</div>
-
-  <div id="jarvis-response" class="jarvis-response">
-    Awaiting your command...
-  </div>
-</section>
-<!-- END JARVIS ASSISTANT PANEL -->
 </html>
