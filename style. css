@@ -224,3 +224,36 @@ hr {
   }
 }
 
+/* JARVIS COMMAND CONSOLE */
+.jarvis-command {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.jarvis-command input {
+  flex: 1;
+  min-width: 0;
+  padding: 13px;
+  color: #d9faff;
+  background: #071321;
+  border: 1px solid rgba(81, 234, 255, 0.45);
+  border-radius: 6px;
+  font: inherit;
+}
+
+.jarvis-command input:focus {
+  outline: 1px solid #51eaff;
+}
+
+.jarvis-command button {
+  padding: 12px 18px;
+  color: #51eaff;
+  background: #071321;
+  border: 1px solid #168dff;
+  border-radius: 6px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
