@@ -104,3 +104,123 @@ hr {
   }
 }
 
+/* JARVIS ASSISTANT PANEL */
+.assistant-panel {
+  max-width: 760px;
+  margin: 32px auto;
+  padding: 24px;
+  color: #d9faff;
+  background: rgba(5, 16, 30, 0.94);
+  border: 1px solid rgba(81, 234, 255, 0.45);
+  border-radius: 18px;
+  box-shadow: 0 0 28px rgba(22, 141, 255, 0.14);
+  font-family: 'Rajdhani', sans-serif;
+}
+
+.assistant-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(81, 234, 255, 0.2);
+}
+
+.jarvis-status {
+  color: #51eaff;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.status-light {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  margin-right: 8px;
+  background: #51eaff;
+  border-radius: 50%;
+  box-shadow: 0 0 12px #51eaff;
+}
+
+.assistant-label,
+.system-status {
+  color: #7599b3;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+}
+
+.jarvis-core {
+  padding: 30px 0;
+  text-align: center;
+}
+
+.core-ring {
+  display: grid;
+  place-items: center;
+  width: 130px;
+  height: 130px;
+  margin: 0 auto 18px;
+  border: 2px solid #51eaff;
+  border-radius: 50%;
+  box-shadow: 0 0 18px rgba(81, 234, 255, 0.4),
+              inset 0 0 18px rgba(81, 234, 255, 0.15);
+}
+
+.core-inner {
+  display: grid;
+  place-items: center;
+  width: 92px;
+  height: 92px;
+  border: 1px solid #168dff;
+  border-radius: 50%;
+  color: #51eaff;
+  font-size: 3rem;
+  font-weight: 600;
+  text-shadow: 0 0 15px #51eaff;
+}
+
+.system-status {
+  color: #51eaff;
+}
+
+.system-message {
+  color: #b5cbd8;
+}
+
+.jarvis-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+.jarvis-controls button {
+  padding: 12px 22px;
+  color: #51eaff;
+  background: transparent;
+  border: 1px solid #168dff;
+  border-radius: 6px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.jarvis-controls button:active {
+  background: rgba(81, 234, 255, 0.15);
+}
+
+.jarvis-response {
+  margin-top: 20px;
+  padding: 14px;
+  color: #91b9cc;
+  background: rgba(22, 141, 255, 0.07);
+  border-left: 2px solid #51eaff;
+}
+
+@media (max-width: 480px) {
+  .assistant-panel {
+    margin: 18px 8px;
+    padding: 16px;
+  }
+}
+
