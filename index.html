@@ -963,6 +963,108 @@ button:active {
   }
 }
 
+/* ===== PHASE 2: IPHONE HUD POLISH ===== */
+
+html {
+  width: 100%;
+  min-height: 100%;
+  overflow-x: clip;
+}
+
+body {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  overflow-x: clip;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Keep content within the screen */
+img,
+canvas,
+svg,
+video {
+  max-width: 100%;
+}
+
+/* Prevent long text from forcing wide panels */
+.panel,
+.assistant-panel,
+.chat-panel,
+.card,
+#friday-panel,
+.friday-panel,
+#chat-panel,
+.chat-panel,
+#neural-chat,
+.neural-chat {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Flexible form controls */
+input,
+textarea,
+select {
+  max-width: 100%;
+  min-width: 0;
+  font-size: 16px;
+}
+
+/* Touch-friendly buttons */
+button {
+  min-height: 44px;
+  touch-action: manipulation;
+}
+
+/* Compact layout on iPhone-sized screens */
+@media (max-width: 600px) {
+  body {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  h1 {
+    font-size: clamp(22px, 6vw, 30px);
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+  }
+
+  h2 {
+    font-size: clamp(18px, 5vw, 23px);
+  }
+
+  .arc-reactor-widget {
+    padding-top: 18px;
+    padding-bottom: 18px;
+    margin-bottom: 16px;
+  }
+
+  .arc-reactor {
+    width: min(62vw, 210px);
+  }
+
+  input,
+  textarea,
+  select {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  button {
+    max-width: 100%;
+  }
+}
+
+/* Roomier layout on larger screens */
+@media (min-width: 800px) {
+  body {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1100px;
+  }
+}
+
   </style>
 </head>
 
