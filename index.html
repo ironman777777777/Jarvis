@@ -5,6 +5,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#050b14">
+  
+<!-- Phase 2: Futuristic navigation bar -->
+<nav class="hud-nav" aria-label="HUD navigation">
+  <a class="hud-nav-brand" href="#top">J.A.R.V.I.S.</a>
+
+  <div class="hud-nav-links">
+    <a href="#jarvis-panel">JARVIS</a>
+    <a href="#friday-panel">FRIDAY</a>
+    <a href="#arc-reactor">REACTOR</a>
+    <a href="#chat-panel">NEURAL CHAT</a>
+  </div>
+</nav>
   <title>JARVIS HUD — Mark I</title>
 
 <!-- ARC REACTOR: Phase 2 visual feature -->
@@ -1221,10 +1233,99 @@ h1 {
   }
 }
 
+/* ===== PHASE 2: FUTURISTIC NAVIGATION ===== */
+
+.hud-nav {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  margin: 0 auto 22px;
+
+  background: rgba(3, 12, 23, 0.96);
+  border: 1px solid rgba(80, 234, 255, 0.35);
+  border-radius: 10px;
+  box-shadow: 0 0 16px rgba(80, 234, 255, 0.06);
+}
+
+.hud-nav-brand {
+  color: #8cf7ff;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.hud-nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.hud-nav-links a {
+  display: inline-flex;
+  min-height: 36px;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 9px;
+
+  color: #a8dce8;
+  background: rgba(80, 234, 255, 0.035);
+  border: 1px solid rgba(80, 234, 255, 0.15);
+  border-radius: 6px;
+
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.hud-nav-links a:hover,
+.hud-nav-links a:focus-visible {
+  color: #ffffff;
+  border-color: #50eaff;
+  background: rgba(80, 234, 255, 0.12);
+  outline: none;
+}
+
+.hud-nav-links a:focus-visible,
+.hud-nav-brand:focus-visible {
+  outline: 2px solid #50eaff;
+  outline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+  .hud-nav {
+    justify-content: center;
+    padding: 12px 8px;
+    gap: 10px;
+  }
+
+  .hud-nav-links {
+    width: 100%;
+    justify-content: center;
+    gap: 5px;
+  }
+
+  .hud-nav-links a {
+    padding: 8px 7px;
+    font-size: 9px;
+  }
+}
+
   </style>
 </head>
 
-<body>
+<body id="top">
   <header class="topbar">
     <div class="brand">
       STARK INDUSTRIES
