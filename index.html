@@ -17,6 +17,14 @@
     <a href="#chat-panel">NEURAL CHAT</a>
   </div>
 </nav>
+  
+<!-- Phase 2: Live system clock -->
+<section class="hud-clock" aria-label="Live date and time">
+  <span class="hud-clock-label">JARVIS SYSTEM TIME</span>
+  <time id="hud-time">INITIALIZING...</time>
+  <span id="hud-date">CONNECTING TO LOCAL TIME...</span>
+</section>
+
   <title>JARVIS HUD — Mark I</title>
 
 <!-- ARC REACTOR: Phase 2 visual feature -->
@@ -1322,6 +1330,62 @@ h1 {
   }
 }
 
+/* ===== PHASE 2: LIVE SYSTEM CLOCK ===== */
+.hud-clock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+  margin: 0 auto 24px;
+  padding: 16px 12px;
+  text-align: center;
+  background: rgba(5, 20, 35, 0.78);
+  border: 1px solid rgba(80, 234, 255, 0.3);
+  border-radius: 10px;
+  box-shadow:
+    inset 0 0 18px rgba(80, 234, 255, 0.035),
+    0 0 18px rgba(80, 234, 255, 0.06);
+}
+
+.hud-clock-label {
+  color: #50eaff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+}
+
+#hud-time {
+  color: #b9fbff;
+  font-family: monospace;
+  font-size: clamp(28px, 7vw, 42px);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-shadow: 0 0 14px rgba(80, 234, 255, 0.6);
+  font-variant-numeric: tabular-nums;
+}
+
+#hud-date {
+  color: #83aebf;
+  font-family: monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+}
+
+@media (max-width: 600px) {
+  .hud-clock {
+    padding: 14px 8px;
+  }
+
+  .hud-clock-label {
+    letter-spacing: 0.16em;
+  }
+
+  #hud-date {
+    font-size: 10px;
+  }
+}
+
   </style>
 </head>
 
@@ -1580,6 +1644,41 @@ h1 {
 
       $("jarvis-input").focus();
     })();
+    
+/* ===== PHASE 2: LIVE SYSTEM CLOCK ===== */
+(() => {
+  const timeDisplay = document.getElementById("hud-time");
+  const dateDisplay = document.getElementById("hud-date");
+
+  if (!timeDisplay || !dateDisplay) return;
+
+  function updateHudClock() {
+    const now = new Date();
+
+    timeDisplay.textContent = now.toLocaleTimeString(
+      undefined,
+      {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+      }
+    );
+
+    dateDisplay.textContent = now.toLocaleDateString(
+      undefined,
+      {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      }
+    ).toUpperCase();
+  }
+
+  updateHudClock();
+  setInterval(updateHudClock, 1000);
+})();
+
   </script>
 </body>
 </html>
