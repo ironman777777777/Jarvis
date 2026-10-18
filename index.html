@@ -804,6 +804,165 @@ button:active {
   }
 }
 
+/* ===== PHASE 2: NEURAL CHAT MAKEOVER ===== */
+
+/* Chat panel */
+#chat-panel,
+.chat-panel,
+#neural-chat,
+.neural-chat {
+  --chat-cyan: #50eaff;
+
+  background:
+    radial-gradient(
+      ellipse at top right,
+      rgba(80, 234, 255, 0.09),
+      transparent 60%
+    ),
+    rgba(5, 13, 24, 0.97);
+
+  border: 1px solid rgba(80, 234, 255, 0.48);
+  border-radius: 14px;
+
+  box-shadow:
+    0 0 16px rgba(80, 234, 255, 0.08),
+    inset 0 0 20px rgba(80, 234, 255, 0.025);
+}
+
+/* Chat headings */
+#chat-panel h1,
+#chat-panel h2,
+#chat-panel h3,
+.chat-panel h1,
+.chat-panel h2,
+.chat-panel h3,
+#neural-chat h1,
+#neural-chat h2,
+#neural-chat h3,
+.neural-chat h1,
+.neural-chat h2,
+.neural-chat h3 {
+  color: #9cf5ff;
+  text-shadow: 0 0 10px rgba(80, 234, 255, 0.25);
+}
+
+/* Chat text and reply area */
+#chat-panel p,
+.chat-panel p,
+#neural-chat p,
+.neural-chat p {
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+/* Chat inputs */
+#chat-panel input,
+#chat-panel textarea,
+.chat-panel input,
+.chat-panel textarea,
+#neural-chat input,
+#neural-chat textarea,
+.neural-chat input,
+.neural-chat textarea {
+  width: 100%;
+  max-width: 100%;
+  background: rgba(1, 8, 16, 0.96);
+  color: #e4faff;
+  border: 1px solid rgba(80, 234, 255, 0.45);
+  border-radius: 10px;
+  padding: 12px;
+}
+
+/* Chat input focus */
+#chat-panel input:focus,
+#chat-panel textarea:focus,
+.chat-panel input:focus,
+.chat-panel textarea:focus,
+#neural-chat input:focus,
+#neural-chat textarea:focus,
+.neural-chat input:focus,
+.neural-chat textarea:focus {
+  outline: none;
+  border-color: #50eaff;
+  box-shadow: 0 0 12px rgba(80, 234, 255, 0.2);
+}
+
+/* Chat buttons */
+#chat-panel button,
+.chat-panel button,
+#neural-chat button,
+.neural-chat button {
+  border: 1px solid rgba(80, 234, 255, 0.55);
+  border-radius: 9px;
+}
+
+/* User and assistant message bubble styles
+   These apply only if your existing HTML uses
+   one of these message classes. */
+#chat-panel .user,
+#chat-panel .user-message,
+#chat-panel .message.user,
+.chat-panel .user,
+.chat-panel .user-message,
+.chat-panel .message.user,
+#neural-chat .user,
+#neural-chat .user-message,
+#neural-chat .message.user,
+.neural-chat .user,
+.neural-chat .user-message,
+.neural-chat .message.user {
+  background: rgba(25, 100, 145, 0.24);
+  border: 1px solid rgba(80, 234, 255, 0.38);
+  border-radius: 12px;
+  padding: 10px 12px;
+  margin: 8px 0;
+}
+
+/* Assistant reply bubbles */
+#chat-panel .assistant,
+#chat-panel .assistant-message,
+#chat-panel .message.assistant,
+.chat-panel .assistant,
+.chat-panel .assistant-message,
+.chat-panel .message.assistant,
+#neural-chat .assistant,
+#neural-chat .assistant-message,
+#neural-chat .message.assistant,
+.neural-chat .assistant,
+.neural-chat .assistant-message,
+.neural-chat .message.assistant {
+  background: rgba(8, 28, 37, 0.85);
+  border: 1px solid rgba(120, 240, 205, 0.3);
+  border-radius: 12px;
+  padding: 10px 12px;
+  margin: 8px 0;
+}
+
+/* iPhone sizing */
+@media (max-width: 600px) {
+  #chat-panel,
+  .chat-panel,
+  #neural-chat,
+  .neural-chat {
+    border-radius: 11px;
+  }
+
+  #chat-panel input,
+  #chat-panel textarea,
+  #chat-panel button,
+  .chat-panel input,
+  .chat-panel textarea,
+  .chat-panel button,
+  #neural-chat input,
+  #neural-chat textarea,
+  #neural-chat button,
+  .neural-chat input,
+  .neural-chat textarea,
+  .neural-chat button {
+    font-size: 16px;
+  }
+}
+
   </style>
 </head>
 
